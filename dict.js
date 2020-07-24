@@ -189,7 +189,7 @@ let examples = (word) => {
     console.log('\x1b[36mChoose the options from below menu:\x1b[0m');
     console.log('\t1. \x1b[30m\x1b[43mTry Again\x1b[0m\n');
     console.log('\t2. \x1b[30m\x1b[43mTake a Hint\x1b[0m\n');
-    console.log('\t3. \x1b[30m\x1b[43mQuit Game\x1b[0m\n');
+    console.log('\t3. \x1b[30m\x1b[43mSkip\x1b[0m\n');
   };
 
   let playGame=()=>{
@@ -231,19 +231,25 @@ let examples = (word) => {
         console.log('\x1b[36m Find the word with the following definition\x1b[0m ');
         console.log(`\x1b[33mDefinition :\n\t ${game_word_def[0]}\x1b[0m`);
         console.log(' Type the word and press the ENTER key. ');
+        let score=0;
         rd.on('line', (input) => {
           let answer = false;
           if(hasSyn){
             for(let index in game_word_syn){
               if(`${input}` == game_word_syn[index]){
+                score+=10;
                 console.log('\x1b[30m \x1b[46m Congratulations! You have entered the correct synonym for the word "'+game_word+'"\x1b[0m ');
                 rl.close();
                 answer = true;
+                console.log(`\x1b[37m\x1b[42mYour score is ${score}\x1b[0m`);
+
               }
             }
           }
           if(`${input}` === game_word){
             console.log('\x1b[30m \x1b[46m  Congratulations! You got this.\x1b[0m ');
+            score+=10;
+            console.log(`\x1b[37m\x1b[42mYour score is ${score}\x1b[0m`);
             rd.close();
           }else{
             if(!(`${input}` == '1' || `${input}` == '2' || `${input}` == '3') && !answer){
@@ -252,8 +258,10 @@ let examples = (word) => {
             switch(parseInt(`${input}`)){
               case 1:
                 console.log('Try  to Guess the word again: ');
+                  score=score-2;
               break;
               case 2:
+                score=score-3;
                 let randomIndex = Math.floor((Math.random() * parseInt(game_word_def.length)) + 1);
                 if(randomIndex == game_word_def.length){
                   randomIndex = game_word_def.length - 1;
@@ -261,11 +269,15 @@ let examples = (word) => {
                 console.log('\x1b[30m \x1b[46m Here is your hint:\x1b[0m ');
                 console.log(`\t\x1b[33m Definition :\t' ${game_word_def[randomIndex]}\x1b[0m`);
                 console.log('\n Try to guess the word again.');
+                
         
               break;
               case 3:
+                score=score-3;
                 console.log(`\x1b[33m The correct word is :${game_word} \x1b[0m `);
+                console.log(`\x1b[37m\x1b[42mYour score is ${score}\x1b[0m`);
                 console.log('\x1b[33m Thank you for playing this game.\x1b[0m  \n\x1b[30m \x1b[46mGame Ended.\x1b[0m ');
+                
                 rd.close();
               break;
               default:
