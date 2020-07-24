@@ -203,7 +203,7 @@ let examples = (word) => {
         for(let index in data){
           game_word_def[index] =  data[index].text;
         }
-        //console.log('Length of definition array : ' + game_word_definitions.length);
+      
       }else{
         console.log('\x1b[31m Error occured in the process.\n Exiting..... \x1b[0m');
         process.exit();
