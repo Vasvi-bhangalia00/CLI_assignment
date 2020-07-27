@@ -1,6 +1,15 @@
 # CLI_project
 dictionary_tool
 
+
+Prerequisities:
+
+Install nodejs 
+install node-fetch(npm install node-fetch)
+
+
+Usage:
+ run "dict help"  for help
  It is a command line dictionary tool using foutytwowrods words api.
  The command line tool have following functions -
  
