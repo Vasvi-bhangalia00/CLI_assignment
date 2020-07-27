@@ -1,7 +1,16 @@
 # CLI_project
 dictionary_tool
 
- It is a command line dictionary tool using foutytwowrods words api.
+ 
+Prerequisities:
+
+-Install nodejs 
+-install node-fetch(npm install node-fetch)
+
+
+Usage:
+ -Run "dict help"  for help.
+ -It is a command line dictionary tool using foutytwowrods words api.
  The command line tool have following functions -
  
  1. Word Definitions
@@ -24,7 +33,3 @@ dictionary_tool
 6. Word of the Day Full Dict
 	Display all above details of word of the day
 	 ./dict OR node dict.js
-
-7. Word Game
-	 ./dict play OR node dict.js play
-
