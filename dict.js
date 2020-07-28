@@ -206,53 +206,45 @@ async function dictionary(word) {
   let playGame=()=>{
     let game_word;
     let game_word_def = new Array();
+     let game_word_syn;
+    let game_word_ant;
     randomWord()
     .then(data=>
-        {
-    //console.log('Random Word is: ' + data.word);
+    {
     game_word = data.word;
-     definitions(game_word)
-    .then(data=>
-      {
-      if(data.length >= 1){
-        for(let index in data){
-          game_word_def[index] =  data[index].text;
+    console.log(game_word);
+    let promises=[definitions(game_word),synonyms(game_word)];
+    Promise.all(promises)
+    .then(results=>{
+    
+        let def_data=results[0];
+        let syn_data=results[1];
+        // for definitions
+        for(let index in def_data){
+          game_word_def[index] =  def_data[index].text;
           
         }
-      }else{
-        console.log('\x1b[31m Error occured in the process.\n Exiting..... \x1b[0m');
-        process.exit();
-      }
-    antonyms(game_word)
-    .then(data=>
-      {
-    let game_word_ant={};
-    if(data[0].relationshipType=='antonym')
+        
+    let hasSyn = false;
+    if(syn_data.length >= 1  && syn_data[0].relationshipType=='synonym')
+    {
+      hasSyn = true;
+      game_word_syn= syn_data[0].words;
+    }
+    else if(syn_data[1].relationshipType=='synonym')
+    {
+      hasSyn = true;
+      game_word_syn= syn_data[1].words;
+    }
+    
+    if(syn_data[0].relationshipType=='antonym')
     {
      
-      game_word_ant= data[0].words;
-    }
-  synonyms(game_word)
-  .then(data =>
-     {
-    let game_word_syn;
-    let hasSyn = false;
-    
-    if(data.length >= 1  && data[0].relationshipType=='synonym')
-    {
-      hasSyn = true;
-      game_word_syn= data[0].words;
-    }
-    else if(data[1].relationshipType=='synonym')
-    {
-      hasSyn = true;
-      game_word_syn= data[1].words;
-    }
-    
+      game_word_ant= syn_data[0].words;
 
-    
+    }
 
-        console.log('\x1b[36m Find the word with the following definition\x1b[0m ');
+    console.log('\x1b[36m Find the word with the following definition\x1b[0m ');
         console.log(`\x1b[33mDefinition :\n\t ${game_word_def[0]}\x1b[0m`);
         console.log(' Type the word and press the ENTER key. ');
         let score=0;
@@ -279,7 +271,7 @@ async function dictionary(word) {
             help.rd.close();
           }else{
 
-            if((`${input}` == 'a' || `${input}` == 'b' || `${input}` == 'c' || `${input}` == 'd')){
+            if((`${input}` == 'a' || `${input}` == 'b' || `${input}` == 'c' || `${input}` == 'd')&& !(answer)){
                              
               switch(`${input}`){
               
@@ -294,15 +286,17 @@ async function dictionary(word) {
                           
                           break;
                 case 'b':     
-                              if(game_word_ant== 0)
+                              if(game_word_ant==null)
                               {
-                                console.log('\n \x1b[36m \x1b[47mNo antonyms found for the word "'+word+'" \x1b[0m \n');
+                                console.log('\n \x1b[36m \x1b[47mNo antonyms found for the word  \x1b[0m \n');
+                                print.hintDisplay();
+                                break;
                               }
                               let randomIndex2 = Math.floor((Math.random() * parseInt(game_word_ant.length)) + 1);
                               if(randomIndex2 == game_word_ant.length){
                                 randomIndex2 = game_word_ant.length - 1;
                               }
-                              //console.log(game_word_ant);
+                
                                
                               console.log(`\t\x1b[33m Antonym :\t' ${game_word_ant[randomIndex2]}\x1b[0m`);
                               console.log('\n Try to guess the word again.');
@@ -362,12 +356,14 @@ async function dictionary(word) {
             
           }
         });
-     });
-    }).catch(err=>console.log(err));
-      });
-    });
+
     
-  };
+    })
+    .catch(err=>console.log(err));
+
+    
+  })
+};
 
   // starting code 
     
@@ -422,7 +418,7 @@ async function dictionary(word) {
       print.displayHelp();
     }
   };
-  console.log('press Ctrl+C to exit');
-  start();
-  
 
+console.log('press Ctrl+C to exit');
+  //start();
+playGame();  
