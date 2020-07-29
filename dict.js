@@ -212,7 +212,7 @@ async function dictionary(word) {
     .then(data=>
     {
     game_word = data.word;
-    console.log(game_word);
+    //console.log(game_word);
     let promises=[definitions(game_word),synonyms(game_word)];
     Promise.all(promises)
     .then(results=>{
