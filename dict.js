@@ -420,5 +420,5 @@ async function dictionary(word) {
   };
 
 console.log('press Ctrl+C to exit');
-  //start();
-playGame();  
+  start();
+  
