@@ -4,8 +4,8 @@ Dictionary Tool
 
 Prerequisities:
 
--Install nodejs 
--install node-fetch(npm install node-fetch)
+- Install nodejs 
+- install node-fetch(npm install node-fetch)
 
 
 Usage:
