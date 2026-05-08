@@ -1,0 +1,21 @@
+name: First workflow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: 
+jobs:
+  test-push:
+    name: Test push on main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run a demo script
+        run: echo Hello world!
+      - name: Run a multiline script
+        run: | 
+          echo Hello world1!
+          echo Hello world2!
+    
+    
